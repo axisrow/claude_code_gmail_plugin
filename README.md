@@ -1,45 +1,47 @@
 # Gmail Analyzer — Claude Code Plugin
 
-Плагин для Claude Code, расширяющий Gmail MCP: 5-категорийная классификация писем, авто-тегирование, поиск, управление метками. Также включает standalone CLI (`main.py`).
+> [Русская версия](README.ru.md)
 
-## Установка плагина
+A Claude Code plugin that extends Gmail MCP with 5-category email classification, auto-tagging, search, and label management. Also includes a standalone CLI (`main.py`).
 
-### 1. Клонировать репозиторий
+## Plugin Installation
+
+### 1. Clone the repository
 
 ```bash
 git clone https://github.com/axisrow/claude_code_gmail_plugin.git
 ```
 
-### 2. Установить зависимости
+### 2. Install dependencies
 
 ```bash
 cd claude_code_gmail_plugin
-pip install -r requirements.txt            # для плагина (Google API libs)
+pip install -r requirements.txt            # plugin deps (Google API libs)
 ```
 
-Для standalone CLI (`main.py`) дополнительно:
+For the standalone CLI (`main.py`):
 ```bash
 pip install -r requirements-sdk.txt        # + claude-agent-sdk, openpyxl
 ```
 
-### 3. Подключить плагин к Claude Code
+### 3. Add the plugin to Claude Code
 
 ```bash
 claude plugin add /path/to/claude_code_gmail_plugin
 ```
 
-Или для одной сессии:
+Or for a single session:
 ```bash
 claude --plugin-dir /path/to/claude_code_gmail_plugin
 ```
 
-### 4. Авторизация Gmail (один из вариантов)
+### 4. Gmail Authorization (pick one)
 
-Программа автоматически выберет доступный бэкенд: gcloud ADC → gws CLI → credentials.json.
+The client auto-selects an available backend: gcloud ADC → gws CLI → credentials.json.
 
-#### Вариант A: gcloud ADC (рекомендуется)
+#### Option A: gcloud ADC (recommended)
 
-1. Установите [gcloud CLI](https://cloud.google.com/sdk/docs/install):
+1. Install [gcloud CLI](https://cloud.google.com/sdk/docs/install):
 
    **macOS (Apple Silicon):**
    ```bash
@@ -55,23 +57,23 @@ claude --plugin-dir /path/to/claude_code_gmail_plugin
    ./google-cloud-sdk/install.sh
    ```
 
-   После установки откройте **новый терминал**.
+   Open a **new terminal** after installation.
 
-2. Инициализируйте gcloud:
+2. Initialize gcloud:
    ```bash
    gcloud init
    ```
 
-3. Создайте OAuth Client ID в [Google Cloud Console](https://console.cloud.google.com/apis/credentials), скачайте как `client_secret.json` в корень проекта.
+3. Create an OAuth Client ID in [Google Cloud Console](https://console.cloud.google.com/apis/credentials), download it as `client_secret.json` into the project root.
 
-4. Авторизуйтесь:
+4. Authenticate:
    ```bash
    gcloud auth application-default login \
      --client-id-file=client_secret.json \
      --scopes=https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/gmail.modify
    ```
 
-#### Вариант B: gws CLI
+#### Option B: gws CLI
 
 ```bash
 npm install -g @googleworkspace/cli
@@ -79,45 +81,45 @@ gws auth setup
 gws auth login -s gmail
 ```
 
-Проверьте: `gws gmail +triage --max 3`
+Verify: `gws gmail +triage --max 3`
 
-#### Вариант C: credentials.json
+#### Option C: credentials.json
 
-1. Создайте OAuth Client ID в [Google Cloud Console](https://console.cloud.google.com/apis/credentials)
-2. Скачайте `credentials.json` в корень проекта
-3. При первом запуске откроется браузер для авторизации
+1. Create an OAuth Client ID in [Google Cloud Console](https://console.cloud.google.com/apis/credentials)
+2. Download `credentials.json` into the project root
+3. A browser window will open for authorization on first run
 
-## Скиллы плагина
+## Plugin Skills
 
-После подключения доступны 4 скилла:
+Once installed, 4 skills are available:
 
-| Скилл | Команда | Описание |
+| Skill | Command | Description |
 |---|---|---|
-| Анализ почты | `/gmail-analyzer:analyze-emails` | 5-категорийная классификация (Личное, Рассылка, Важное, Шум, Мусор) |
-| Поиск | `/gmail-analyzer:search-emails <query>` | Поиск по Gmail query syntax (`from:`, `subject:`, `newer_than:`) |
-| Метки | `/gmail-analyzer:manage-labels` | Список, создание, удаление меток |
-| Авто-теги | `/gmail-analyzer:auto-tag` | Анализ + предложение тегов + подтверждение + применение |
+| Email Analysis | `/gmail-analyzer:analyze-emails` | 5-category classification (Personal, Newsletter, Important, Noise, Spam) |
+| Search | `/gmail-analyzer:search-emails <query>` | Gmail query syntax search (`from:`, `subject:`, `newer_than:`) |
+| Labels | `/gmail-analyzer:manage-labels` | List, create, delete labels |
+| Auto-tag | `/gmail-analyzer:auto-tag` | Analyze + suggest tags + confirm + apply |
 
-Скиллы используют Gmail MCP для чтения и скрипты из `scripts/` для записи (применение меток).
+Skills use Gmail MCP for reading and scripts from `scripts/` for writing (applying labels).
 
-## Standalone CLI (optional, требует requirements-sdk.txt)
+## Standalone CLI (optional, requires requirements-sdk.txt)
 
-`main.py` работает отдельно от Claude Code через Claude Agent SDK:
+`main.py` runs independently from Claude Code via Claude Agent SDK:
 
 ```bash
-python main.py                          # только анализ (INBOX)
-python main.py --tag                    # анализ + автотегирование
-python main.py --tag --label CATEGORY_X # тегирование писем с конкретным тегом
-python main.py --label CATEGORY_UPDATES # анализ писем с конкретным тегом
-python main.py top [N]                  # топ-N отправителей рассылок
-python main.py mark <Label_ID> <emails> # пометить письма от отправителей
-python main.py mark-query <Label_ID> <q># пометить письма по Gmail query
-python main.py analyze-senders [N]      # анализ отправителей по секторам (Excel)
-python main.py labels                   # показать все теги
-python main.py labels create Имя        # создать пользовательский тег
-python main.py labels delete Label_XX   # удалить пользовательский тег
+python main.py                          # analysis only (INBOX)
+python main.py --tag                    # analysis + auto-tagging
+python main.py --tag --label CATEGORY_X # tag emails with a specific label
+python main.py --label CATEGORY_UPDATES # analyze emails with a specific label
+python main.py top [N]                  # top-N newsletter senders
+python main.py mark <Label_ID> <emails> # label emails from specific senders
+python main.py mark-query <Label_ID> <q># label emails by Gmail query
+python main.py analyze-senders [N]      # sender analysis by sector (Excel)
+python main.py labels                   # show all labels
+python main.py labels create Name       # create a custom label
+python main.py labels delete Label_XX   # delete a custom label
 ```
 
-> **Важно:** `main.py` нельзя запускать внутри сессии Claude Code (вложенные сессии запрещены). Используйте обычный терминал.
+> **Important:** `main.py` cannot be run inside a Claude Code session (nested sessions are not allowed). Use a regular terminal.
 
-> **Переавторизация:** если ранее использовался scope `gmail.readonly`, удалите `token.json` и авторизуйтесь заново с `gmail.modify`.
+> **Re-authorization:** if you previously used the `gmail.readonly` scope, delete `token.json` and re-authorize with `gmail.modify`.
