@@ -1,7 +1,7 @@
 {
   "name": "gmail-analyzer",
   "description": "Gmail analyzer: 5-category email classification, auto-tagging, search, label management. Extends Gmail MCP.",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "author": {
     "name": "axisrow"
   },
