@@ -1,0 +1,9 @@
+{
+  "name": "gmail-analyzer",
+  "description": "Gmail analyzer: 5-category email classification, auto-tagging, search, label management. Extends Gmail MCP.",
+  "version": "1.0.0",
+  "author": {
+    "name": "axisrow"
+  },
+  "repository": "https://github.com/axisrow/claude_code_gmail_plugin"
+}

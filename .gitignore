@@ -1,0 +1,23 @@
+# Credentials & secrets
+client_secret.json
+credentials.json
+token.json
+.env
+
+# Google Cloud SDK (install separately)
+google-cloud-sdk/
+google-cloud-cli-*.tar.gz
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+venv/
+env/
+.pytest_cache/
+
+# macOS
+.DS_Store
+
+# Claude Code local settings
+.claude/settings.local.json
