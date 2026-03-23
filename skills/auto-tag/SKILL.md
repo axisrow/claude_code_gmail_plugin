@@ -52,7 +52,7 @@ Ask the user to confirm: "Apply these tags? (y/n)"
 After user confirms, construct JSON and pipe to the apply script:
 
 ```bash
-echo '{"actions": [{"message_id": "MSG_ID", "add": ["Label_ID"]}]}' | python3 ${CLAUDE_PLUGIN_ROOT}/scripts/modify_labels.py
+echo '{"actions": [{"message_id": "MSG_ID", "add": ["Label_ID"]}]}' | python3 ~/.claude/scripts/gmail-analyzer/modify_labels.py
 ```
 
 Report results: how many emails were tagged successfully.

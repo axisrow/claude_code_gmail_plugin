@@ -39,7 +39,7 @@ Display in two sections:
 
 Run:
 ```bash
-python3 ${CLAUDE_PLUGIN_ROOT}/scripts/create_label.py "<name>"
+python3 ~/.claude/scripts/gmail-analyzer/create_label.py "<name>"
 ```
 
 Report the created label's name and ID.
@@ -50,7 +50,7 @@ Report the created label's name and ID.
 
 After confirmation, run:
 ```bash
-python3 ${CLAUDE_PLUGIN_ROOT}/scripts/delete_label.py "<label_id>"
+python3 ~/.claude/scripts/gmail-analyzer/delete_label.py "<label_id>"
 ```
 
 **Respond in the user's language.**

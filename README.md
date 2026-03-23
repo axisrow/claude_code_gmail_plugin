@@ -6,17 +6,20 @@ A Claude Code plugin that extends Gmail MCP with 5-category email classification
 
 ## Plugin Installation
 
-### 1. Clone the repository
+### 1. Clone and copy skills
 
 ```bash
 git clone https://github.com/axisrow/claude_code_gmail_plugin.git
+cd claude_code_gmail_plugin
+cp -r skills/* ~/.claude/skills/
+mkdir -p ~/.claude/scripts/gmail-analyzer
+cp scripts/*.py gmail_client.py ~/.claude/scripts/gmail-analyzer/
 ```
 
 ### 2. Install dependencies
 
 ```bash
-cd claude_code_gmail_plugin
-pip install -r requirements.txt            # plugin deps (Google API libs)
+pip install -r requirements.txt            # Google API libs
 ```
 
 For the standalone CLI (`main.py`):
@@ -24,18 +27,7 @@ For the standalone CLI (`main.py`):
 pip install -r requirements-sdk.txt        # + claude-agent-sdk, openpyxl
 ```
 
-### 3. Add the plugin to Claude Code
-
-```bash
-claude plugin add /path/to/claude_code_gmail_plugin
-```
-
-Or for a single session:
-```bash
-claude --plugin-dir /path/to/claude_code_gmail_plugin
-```
-
-### 4. Gmail Authorization (pick one)
+### 3. Gmail Authorization (pick one)
 
 The client auto-selects an available backend: gcloud ADC → gws CLI → credentials.json.
 
@@ -95,10 +87,10 @@ Once installed, 4 skills are available:
 
 | Skill | Command | Description |
 |---|---|---|
-| Email Analysis | `/gmail-analyzer:analyze-emails` | 5-category classification (Personal, Newsletter, Important, Noise, Spam) |
-| Search | `/gmail-analyzer:search-emails <query>` | Gmail query syntax search (`from:`, `subject:`, `newer_than:`) |
-| Labels | `/gmail-analyzer:manage-labels` | List, create, delete labels |
-| Auto-tag | `/gmail-analyzer:auto-tag` | Analyze + suggest tags + confirm + apply |
+| Email Analysis | `/analyze-emails` | 5-category classification (Personal, Newsletter, Important, Noise, Spam) |
+| Search | `/search-emails <query>` | Gmail query syntax search (`from:`, `subject:`, `newer_than:`) |
+| Labels | `/manage-labels` | List, create, delete labels |
+| Auto-tag | `/auto-tag` | Analyze + suggest tags + confirm + apply |
 
 Skills use Gmail MCP for reading and scripts from `scripts/` for writing (applying labels).
 

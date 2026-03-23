@@ -6,17 +6,20 @@
 
 ## Установка плагина
 
-### 1. Клонировать репозиторий
+### 1. Клонировать и скопировать скиллы
 
 ```bash
 git clone https://github.com/axisrow/claude_code_gmail_plugin.git
+cd claude_code_gmail_plugin
+cp -r skills/* ~/.claude/skills/
+mkdir -p ~/.claude/scripts/gmail-analyzer
+cp scripts/*.py gmail_client.py ~/.claude/scripts/gmail-analyzer/
 ```
 
 ### 2. Установить зависимости
 
 ```bash
-cd claude_code_gmail_plugin
-pip install -r requirements.txt            # для плагина (Google API libs)
+pip install -r requirements.txt            # Google API libs
 ```
 
 Для standalone CLI (`main.py`) дополнительно:
@@ -24,18 +27,7 @@ pip install -r requirements.txt            # для плагина (Google API l
 pip install -r requirements-sdk.txt        # + claude-agent-sdk, openpyxl
 ```
 
-### 3. Подключить плагин к Claude Code
-
-```bash
-claude plugin add /path/to/claude_code_gmail_plugin
-```
-
-Или для одной сессии:
-```bash
-claude --plugin-dir /path/to/claude_code_gmail_plugin
-```
-
-### 4. Авторизация Gmail (один из вариантов)
+### 3. Авторизация Gmail (один из вариантов)
 
 Программа автоматически выберет доступный бэкенд: gcloud ADC → gws CLI → credentials.json.
 
@@ -95,10 +87,10 @@ gws auth login -s gmail
 
 | Скилл | Команда | Описание |
 |---|---|---|
-| Анализ почты | `/gmail-analyzer:analyze-emails` | 5-категорийная классификация (Личное, Рассылка, Важное, Шум, Мусор) |
-| Поиск | `/gmail-analyzer:search-emails <query>` | Поиск по Gmail query syntax (`from:`, `subject:`, `newer_than:`) |
-| Метки | `/gmail-analyzer:manage-labels` | Список, создание, удаление меток |
-| Авто-теги | `/gmail-analyzer:auto-tag` | Анализ + предложение тегов + подтверждение + применение |
+| Анализ почты | `/analyze-emails` | 5-категорийная классификация (Личное, Рассылка, Важное, Шум, Мусор) |
+| Поиск | `/search-emails <query>` | Поиск по Gmail query syntax (`from:`, `subject:`, `newer_than:`) |
+| Метки | `/manage-labels` | Список, создание, удаление меток |
+| Авто-теги | `/auto-tag` | Анализ + предложение тегов + подтверждение + применение |
 
 Скиллы используют Gmail MCP для чтения и скрипты из `scripts/` для записи (применение меток).
 
